@@ -6,6 +6,7 @@ import { Box, Button, Modal, Stack, TextField } from "@mui/material";
 import { useForm } from "../hooks/formHook";
 import { useAlert } from "react-alert";
 import { BaseApiUrl } from "../api/BaseUrl";
+import { useNavigate } from "react-router-dom";
 
 const style = {
   position: "absolute",
@@ -19,20 +20,32 @@ const style = {
 };
 
 const Equipos = () => {
+  const navigate = useNavigate();
   const { data, loading } = useGetData("http://localhost:3001/get-equipos");
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   const deleteItem = (id) => {
-    BaseApiUrl.delete(`/delete-equipos`, {
-      id: id,
-    }).then(() => {
+    BaseApiUrl.delete(`/delete-equipos${id}`).then(() => {
       window.location.reload();
     });
   };
 
-  const updateItem = (cellValues) => {};
+  const updateItem = (cellValues) => {
+    navigate("/equipos/editar", {
+      state: {
+        nombre: cellValues.nombre,
+        estadio: cellValues.estadio,
+        campeonatos: cellValues.campeonatos,
+        liga: cellValues.liga,
+        division: cellValues.division,
+        id: cellValues.id,
+        type: "equipos",
+      },
+    });
+    // console.log(cellValues);
+  };
 
   const equiposColumn = [
     { field: "id", headerName: "ID", width: 90 },
@@ -73,7 +86,7 @@ const Equipos = () => {
             <Button
               variant="contained"
               color="primary"
-              onClick={() => updateItem(cellValues)}
+              onClick={() => updateItem(cellValues.row)}
               sx={{ mr: 2 }}
             >
               Editar

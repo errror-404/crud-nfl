@@ -25,10 +25,11 @@ const Jugadores = () => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+
   const deleteItem = (id) => {
-    BaseApiUrl.delete(`/delete-jugadores`, {
-      id: id,
-    }).then(() => {
+    // console.log(id)
+    BaseApiUrl.delete(`/delete-jugadores${id}`).then(() => {
       window.location.reload();
     });
   };
@@ -42,7 +43,7 @@ const Jugadores = () => {
         posicion: cellValues.posicion,
         equipo: cellValues.equipo,
         nacionalidad: cellValues.nacionalidad,
-        superBowls: cellValues.superBowls,
+        superbowls: cellValues.superbowls,
         id: cellValues.id,
         type: "jugadores",
       },

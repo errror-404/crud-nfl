@@ -26,9 +26,7 @@ const Estadios = () => {
   const handleClose = () => setOpen(false);
 
   const deleteItem = (id) => {
-    BaseApiUrl.delete(`/delete-estadios`, {
-      id: id,
-    }).then(() => {
+    BaseApiUrl.delete(`/delete-estadios${id}`).then(() => {
       window.location.reload();
     });
   };

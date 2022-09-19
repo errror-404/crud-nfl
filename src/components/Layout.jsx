@@ -38,7 +38,7 @@ const ResponsiveDrawer = ({ window, children }) => {
           <ListItem key={text.id} disablePadding>
             <ListItemButton onClick={() => navigate(text.path)}>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                {text.icon}
               </ListItemIcon>
               <ListItemText primary={text.name} />
             </ListItemButton>

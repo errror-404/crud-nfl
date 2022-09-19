@@ -7,7 +7,7 @@ import { useForm } from "../hooks/formHook";
 const Editar = () => {
   const location = useLocation();
   const { type } = location.state;
-  return <>{type === "estadio" ? <Estadio /> : null}</>;
+  return <>{type === "estadio" ? <Estadio /> : type === "jugadores" ? <Jugadores /> : type === "equipos" ? <Equipos /> : null}</>;
 };
 
 const Estadio = () => {
@@ -96,34 +96,45 @@ const Estadio = () => {
 
 const Jugadores = () => {
   const location = useLocation();
-  const { 
+  const {
     nombre,
-    apellido,
-    posicion,
+    apellidos,
+    edad,
+    nacionalidad,
     equipo,
-    dorsal,
-    
+    posicion,
+    superbowls,
+    id,
+    type
+
   } =
     location.state;
 
+  console.log(location.state)
+
   const { values, handleInputChange, reset } = useForm({
     nombre: nombre,
+    apellidos: apellidos,
+    edad: edad,
+    nacionalidad: nacionalidad,
     equipo: equipo,
-    localidad: localidad,
-    capacidad: capacidad,
-    apertura: apertura,
+    posicion: posicion,
+    superbowls: superbowls
+
   });
 
   const onSubmit = () => {
-    BaseApiUrl.put("/put-estadios", {
+    BaseApiUrl.put("/put-jugadores", {
       nombre: values.nombre,
+      apellidos: values.apellidos,
+      edad: values.edad,
+      nacionalidad: values.nacionalidad,
       equipo: values.equipo,
-      localidad: values.localidad,
-      capacidad: values.capacidad,
-      apertura: values.apertura,
+      posicion: values.posicion,
+      superBowls: values.superbowls,
       id: id,
     }).then(() => {
-      window.location.replace("/estadios");
+      window.location.replace("/jugadores");
     });
   };
 
@@ -140,7 +151,34 @@ const Jugadores = () => {
             placeholder={nombre}
             onChange={(e) => handleInputChange(e)}
           />
-          <Typography variant="h6">Equipo</Typography>
+          <Typography variant="h6">apellidos</Typography>
+
+          <TextField
+            type="text"
+            variant="outlined"
+            name="apellidos"
+            placeholder={apellidos}
+            onChange={(e) => handleInputChange(e)}
+          />
+          <Typography variant="h6">edad</Typography>
+
+          <TextField
+            type="text"
+            variant="outlined"
+            name="edad"
+            placeholder={edad}
+            onChange={(e) => handleInputChange(e)}
+          />
+          <Typography variant="h6">nacionalidad</Typography>
+
+          <TextField
+            type="text"
+            variant="outlined"
+            name="nacionalidad"
+            placeholder={nacionalidad}
+            onChange={(e) => handleInputChange(e)}
+          />
+          <Typography variant="h6">equipo</Typography>
 
           <TextField
             type="text"
@@ -149,31 +187,22 @@ const Jugadores = () => {
             placeholder={equipo}
             onChange={(e) => handleInputChange(e)}
           />
-          <Typography variant="h6">Localidad</Typography>
+          <Typography variant="h6">posicion</Typography>
 
           <TextField
             type="text"
             variant="outlined"
-            name="localidad"
-            placeholder={localidad}
+            name="posicion"
+            placeholder={posicion}
             onChange={(e) => handleInputChange(e)}
           />
-          <Typography variant="h6">Capacidad</Typography>
+          <Typography variant="h6">superbowls</Typography>
 
           <TextField
             type="text"
             variant="outlined"
-            name="capacidad"
-            placeholder={capacidad}
-            onChange={(e) => handleInputChange(e)}
-          />
-          <Typography variant="h6">Apertura</Typography>
-
-          <TextField
-            type="text"
-            variant="outlined"
-            name="apertura"
-            placeholder={apertura}
+            name="superbowls"
+            placeholder={superbowls}
             onChange={(e) => handleInputChange(e)}
           />
           <Button variant="outlined" onClick={onSubmit}>
@@ -184,5 +213,104 @@ const Jugadores = () => {
     </>
   );
 };
+
+const Equipos = () => {
+  const location = useLocation();
+  const {
+    nombre,
+    estadio,
+    campeonatos,
+    liga,
+    division,
+    id,
+    type
+
+  } =
+    location.state;
+
+  console.log(location.state)
+
+  const { values, handleInputChange, reset } = useForm({
+    nombre: nombre,
+    estadio: estadio,
+    campeonatos: campeonatos,
+    liga: liga,
+    division: division,
+
+
+  });
+
+  const onSubmit = () => {
+    BaseApiUrl.put("/put-equipos", {
+      nombre: values.nombre,
+      estadio: values.estadio,
+      campeonatos: values.campeonatos,
+      liga: values.liga,
+      division: values.division,
+      id: id,
+    }).then(() => {
+      window.location.replace("/equipos");
+    });
+  };
+
+
+  return (
+    <>
+      <Box>
+        <h1>Editar {type}</h1>
+        <Stack spacing={3}>
+          <Typography variant="h6">Nombre</Typography>
+          <TextField
+            type="text"
+            variant="outlined"
+            name="nombre"
+            placeholder={nombre}
+            onChange={(e) => handleInputChange(e)}
+          />
+          <Typography variant="h6">estadio</Typography>
+
+          <TextField
+            type="text"
+            variant="outlined"
+            name="estadio"
+            placeholder={estadio}
+            onChange={(e) => handleInputChange(e)}
+          />
+          <Typography variant="h6">campeonato</Typography>
+
+          <TextField
+            type="text"
+            variant="outlined"
+            name="campeonatos"
+            placeholder={campeonatos}
+            onChange={(e) => handleInputChange(e)}
+          />
+          <Typography variant="h6">liga</Typography>
+
+          <TextField
+            type="text"
+            variant="outlined"
+            name="liga"
+            placeholder={liga}
+            onChange={(e) => handleInputChange(e)}
+          /><Typography variant="h6">division</Typography>
+
+          <TextField
+            type="text"
+            variant="outlined"
+            name="division"
+            placeholder={division}
+            onChange={(e) => handleInputChange(e)}
+          />
+
+
+
+          <Button variant="outlined" onClick={onSubmit}>
+            Editar
+          </Button>
+        </Stack>
+      </Box>
+    </>);
+}
 
 export default Editar;
